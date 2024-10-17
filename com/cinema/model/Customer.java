@@ -36,6 +36,14 @@ public class Customer {
 		this.address = address;
 	}
 
+	public String[] toArray() {
+		String[] customerData = new String[8];
+		customerData[0] = this.id+"";
+		customerData[1] = this.getName();
+		customerData[2] = this.getEmail();
+		customerData[3] = this.getAddress();
+        return customerData;
+    }
 
 	public void setId(int id) {
 		this.id = id;
