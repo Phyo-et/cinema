@@ -26,6 +26,16 @@ public class MovieDao extends AbstractDao<Movie>{
 	}
 
 	@Override
+	public String getUpdateQuary() {
+		return "";
+	}
+
+	@Override
+	public void setUpdateParameter(PreparedStatement preparedStatement, Movie entity) {
+
+	}
+
+	@Override
 	public Movie convertToObject(ResultSet resultSet) throws SQLException {
 	
 			Movie movie = new Movie();

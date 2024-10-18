@@ -27,6 +27,16 @@ public class SeatDaoImpl extends SeatDao {
 	}
 
 	@Override
+	public String getUpdateQuary() {
+		return "";
+	}
+
+	@Override
+	public void setUpdateParameter(PreparedStatement preparedStatement, Seat entity) {
+
+	}
+
+	@Override
 	public Seat convertToObject(ResultSet resultSet) throws SQLException {
 			Seat seat = new Seat();
 			seat.setId(resultSet.getInt("id"));

@@ -24,6 +24,11 @@ public class CustomerDao extends AbstractDao<Customer> {
 	}
 
 	@Override
+	public String getUpdateQuary() {
+		return "UPDATE customers set name =? ,email =? , address = ? WHERE id =?";
+	}
+
+	@Override
 	public Customer convertToObject(ResultSet resultSet) throws SQLException {
 			Customer customer = new Customer();
 			customer.setId(resultSet.getInt("id"));
@@ -44,6 +49,17 @@ public class CustomerDao extends AbstractDao<Customer> {
 		preparedStatement.setString(1, entity.getName());
 		preparedStatement.setString(2,entity.getEmail());
 		preparedStatement.setString(3,entity.getAddress());
+	}
+	@Override
+	public void setUpdateParameter(PreparedStatement preparedStatement,Customer customer){
+		try{
+			preparedStatement.setString(1,customer.getName());
+			preparedStatement.setString(2,customer.getEmail());
+			preparedStatement.setString(3,customer.getAddress());
+			preparedStatement.setInt(4,customer.getId());
+		}catch (SQLException e){
+			e.printStackTrace();
+		}
 	}
 
 }

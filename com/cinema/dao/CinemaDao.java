@@ -24,6 +24,16 @@ public class CinemaDao extends AbstractDao<Cinema>{
 	}
 
 	@Override
+	public String getUpdateQuary() {
+		return "";
+	}
+
+	@Override
+	public void setUpdateParameter(PreparedStatement preparedStatement, Cinema entity) {
+
+	}
+
+	@Override
 	public Cinema convertToObject(ResultSet resultSet) throws SQLException {
 		Cinema cinema = new Cinema();
 		

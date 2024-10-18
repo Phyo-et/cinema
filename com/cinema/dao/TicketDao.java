@@ -28,6 +28,16 @@ public class TicketDao extends AbstractDao<Ticket> {
 	}
 
 	@Override
+	public String getUpdateQuary() {
+		return "";
+	}
+
+	@Override
+	public void setUpdateParameter(PreparedStatement preparedStatement, Ticket entity) {
+
+	}
+
+	@Override
 	public Ticket convertToObject(ResultSet resultSet) throws SQLException {
 		
 		int id = resultSet.getInt("id");

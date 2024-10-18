@@ -31,6 +31,16 @@ public class ScheduleDao extends AbstractDao<Schedule>{
 	}
 
 	@Override
+	public String getUpdateQuary() {
+		return "";
+	}
+
+	@Override
+	public void setUpdateParameter(PreparedStatement preparedStatement, Schedule entity) {
+
+	}
+
+	@Override
 	public Schedule convertToObject(ResultSet resultSet) throws SQLException {
 	
 			Schedule schedule = new Schedule();

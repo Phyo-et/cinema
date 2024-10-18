@@ -14,8 +14,10 @@ public class HomePage {
     private JMenu bookingsItem;
     private JMenu moviesItem;
     private JMenu cinemasItem;
+    private JMenu customersItem;
     private JMenuItem ticketBookingItem;
     private JMenuItem cancleBookingItem;
+    private JMenuItem customerListingItem;
 
 
 
@@ -35,13 +37,18 @@ public class HomePage {
         this.bookingsItem = new JMenu("Bookings");
         this.ticketBookingItem = new JMenuItem("Ticket Booking");
         this.cancleBookingItem = new JMenuItem("Cancle Booking");
+        this.customerListingItem = new JMenuItem("Customer Listing ");
         this.moviesItem = new JMenu("Movies");
         this.cinemasItem = new JMenu("Cineams");
+        this.customersItem = new JMenu("Customers");
         this.bookingsItem.add(ticketBookingItem);
         this.bookingsItem.add(cancleBookingItem);
+        this.customersItem.add(customerListingItem);
         this.menuBar.add(bookingsItem);
         this.menuBar.add(moviesItem);
         this.menuBar.add(cinemasItem);
+        this.menuBar.add(customersItem);
+        this.addActionCustomerListingMenu();
         this.ticketBookingAction();
         this.homeFrame.setJMenuBar(this.menuBar);
     }
@@ -57,7 +64,17 @@ public class HomePage {
 
         });
     }
-
+    private void addActionCustomerListingMenu(){
+        this.customerListingItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                renderCustomerListingView();
+            }
+        });
+    }
+    private void renderCustomerListingView(){
+        CustomerListingView view = new CustomerListingView();
+    }
 
 
 

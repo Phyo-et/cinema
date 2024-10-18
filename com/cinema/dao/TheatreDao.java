@@ -27,6 +27,16 @@ public class TheatreDao extends AbstractDao<Theatre> {
 	}
 
 	@Override
+	public String getUpdateQuary() {
+		return "";
+	}
+
+	@Override
+	public void setUpdateParameter(PreparedStatement preparedStatement, Theatre entity) {
+
+	}
+
+	@Override
 	public Theatre convertToObject(ResultSet resultSet) throws SQLException {
 		
 			Theatre theatre = new Theatre();
