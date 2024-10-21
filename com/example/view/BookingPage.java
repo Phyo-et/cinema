@@ -1,7 +1,7 @@
 
 package com.example.view;
 
-import java.awt.BorderLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
@@ -21,6 +21,10 @@ public class BookingPage {
     private JTable moviesTable;
     private JScrollPane scrollPane;
     private JButton bookingBtn;
+    private JButton createSchduleBtn;
+    private JButton editSchduleBtn;
+    private JButton deleteSchduleBtn;
+
     private String[] columns = {"id","Movie Title", "Cinema Name", "Theatre Name", "Start Time", "End Time", "Public Date", "Duration"};
 
     public BookingPage() {
@@ -47,11 +51,22 @@ public class BookingPage {
         this.bookingframe.add(this.scrollPane, BorderLayout.CENTER);
 
         this.bookingBtn = new JButton("Select Movie & Book Seat");
-        this.bookingframe.add(bookingBtn, BorderLayout.SOUTH);
+        this.createSchduleBtn = new JButton("Create");
+        this.editSchduleBtn = new JButton("Edit");
+        this.deleteSchduleBtn = new JButton("Delete");
+        JPanel btnPanel = new JPanel( );
+        btnPanel.setLayout( new GridLayout(1,4));
+        btnPanel.add(bookingBtn);
+        btnPanel.add(createSchduleBtn);
+        btnPanel.add(editSchduleBtn);
+        btnPanel.add(deleteSchduleBtn);
+        this.bookingframe.add(btnPanel, BorderLayout.SOUTH);
 
         selectMovieForBookingAction();
+        addActionCreateBtn();
         this.bookingframe.setLocationRelativeTo(null);
         this.bookingframe.setVisible(true);
+
     }
 
     private String[][] getMoviesData(){
@@ -66,6 +81,14 @@ public class BookingPage {
             rowCount++;
         }
         return moviesData;
+    }
+    private void addActionCreateBtn(){
+        this.createSchduleBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               CreateMovieSchedulePage create = new CreateMovieSchedulePage();
+            }
+        });
     }
     private void selectMovieForBookingAction(){
         this.bookingBtn.addActionListener(new ActionListener() {

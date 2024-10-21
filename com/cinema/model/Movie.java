@@ -26,7 +26,11 @@ public class Movie {
 	
 	@Override
 	public String toString() {
-		return "Movie [id=" + id + ", title=" + title + ", duration=" + duration + "]";
+		return this.title+" - "+ this.id+" ("+this.duration+")";
 	}
 
+	public String[] toArray(){
+		String[] movieArr = {this.id+"",this.title,this.duration};
+		return movieArr;
+	}
 }

@@ -8,29 +8,39 @@ public class Cinema {
 	private String name;
 	private String address;
 	private List<Theatre> threatres = new ArrayList<Theatre>();
-	
-	
+
+
 	public int getId() {
 		return id;
 	}
+
 	public String getName() {
 		return name;
 	}
+
 	public String getAddress() {
 		return address;
 	}
+
 	public void setId(int id) {
 		this.id = id;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	
+
+	public String[] toArray() {
+		String[] cinemaArr = {this.id + "", this.name, this.address};
+		return cinemaArr;
+	}
+
 	@Override
 	public String toString() {
-		return "Cinema [id=" + id + ", name=" + name + ", address=" + address + "]";
+		return name + " - " + this.id + " Location: " + address;
 	}
 }

@@ -42,7 +42,7 @@ public class LoginWindow {
                 String username = userTextField.getText();
                 String password = new String(passField.getPassword());
 
-                if(username.equals("admin") && password.equals("password")) {
+                if(username.equals("admin") && password.equals("1234")) {
                     HomePage homepage = new HomePage();
                     frame.dispose();
                 }else {

@@ -62,6 +62,7 @@ public class CustomerListingView {
 
         addCreateBtnAction();
         addEditBtnAction();
+        addDeleteAction();
 
         customerListingframe.add(btnPanel,BorderLayout.SOUTH);
         customerListingframe.setVisible(true);
@@ -96,8 +97,29 @@ public class CustomerListingView {
             JOptionPane.showMessageDialog(null, "Please select a customer to update");
         }
     }
+    private void  addDeleteAction(){
+        this.deleteBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                deleteBtnAction();
+            }
+        });
+    }
 
-//    private String [][] getCustomerData(){
+    private void deleteBtnAction() {
+        int selectedRowIndex = this.customerTable.getSelectedRow();
+        if (selectedRowIndex >= 0) {
+            int customerId = Integer.parseInt(this.tableModel.getValueAt(selectedRowIndex,0).toString());
+            this.customerDao.delete(customerId);
+            this.refreshCustomerTable();
+            JOptionPane.showMessageDialog(null,"Sucessfully Deleted !!!");
+        }else{
+            JOptionPane.showMessageDialog(null, "Please select a customer to delete");
+        }
+
+    }
+
+    //    private String [][] getCustomerData(){
 //
 //        List<Customer> customers = this.customerDao.getAll();
 //        String[][] customerDataTable = new String[customers.size()][this.columns.length];

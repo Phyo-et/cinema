@@ -90,7 +90,7 @@ public abstract class AbstractDao<T> {
 			String updateQuery = this.getUpdateQuary();
 			Connection connection = this.connectionFactory.createConnection();
 			PreparedStatement preparedStatement = connection.prepareStatement(updateQuery);
-			this.setParameters(preparedStatement,entity);
+			this.setUpdateParameter(preparedStatement,entity);
 			preparedStatement.executeUpdate();
 		}catch (SQLException e){
 			System.out.print(e.getMessage());
@@ -99,7 +99,7 @@ public abstract class AbstractDao<T> {
 		}
 	}
 
-	public void delete(int id) throws SQLException{
+	public void delete(int id) {
 		try {
 			String query = "delete from " + this.getTableName() + " where id = ?";
 			Connection connection = this.connectionFactory.createConnection();
