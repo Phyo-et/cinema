@@ -7,7 +7,7 @@ import com.cinema.dao.AbstractDao;
 import com.cinema.model.Cinema;
 
 public class CinemaService extends BaseService<Cinema>{
-	private static AbstractDao<Cinema> cinemaDao = new CinemaDao();
+	private static AbstractDao<Cinema> cinemaDao = new CinemaDaoImpl();
 	
 	public CinemaService() {
 		super(cinemaDao);

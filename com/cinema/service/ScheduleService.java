@@ -19,7 +19,7 @@ public class ScheduleService extends BaseService<Schedule> {
 	public ScheduleService() {
 		super(scheduleDao);
 		this.movieDao = new MovieDao();
-		this.theatreDao = new TheatreDao();
+		this.theatreDao = new TheatreDaoImpl();
 	}
 
 	@Override

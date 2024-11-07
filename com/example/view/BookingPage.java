@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
 import com.cinema.dao.AbstractDao;
@@ -25,13 +26,14 @@ public class BookingPage {
     private JButton editSchduleBtn;
     private JButton deleteSchduleBtn;
 
+    private DefaultTableModel tableModel;
+
     private String[] columns = {"id","Movie Title", "Cinema Name", "Theatre Name", "Start Time", "End Time", "Public Date", "Duration"};
 
     public BookingPage() {
         System.out.println("calling constructor !!!!");
         this.scheduleDao = new ScheduleDao();
         this.initializeComponents();
-
     }
 
     private void initializeComponents() {
@@ -40,15 +42,17 @@ public class BookingPage {
         this.bookingframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.bookingframe.setLayout(new BorderLayout());
 
-        System.out.println(this.getMoviesData().toString());
+        this.tableModel = new DefaultTableModel(null,this.columns);
 
-        this.moviesTable = new JTable(this.getMoviesData(), this.columns);
+        this.moviesTable = new JTable(this.tableModel);
         TableColumn column = this.moviesTable.getColumnModel().getColumn(1);
         column.setPreferredWidth(200);
 
         this.scrollPane = new JScrollPane(this.moviesTable);
 
         this.bookingframe.add(this.scrollPane, BorderLayout.CENTER);
+
+        this.loadDataToMovieSchduleListing();
 
         this.bookingBtn = new JButton("Select Movie & Book Seat");
         this.createSchduleBtn = new JButton("Create");
@@ -63,10 +67,19 @@ public class BookingPage {
         this.bookingframe.add(btnPanel, BorderLayout.SOUTH);
 
         selectMovieForBookingAction();
+
         addActionCreateBtn();
+        addActionEditBtn();
+
         this.bookingframe.setLocationRelativeTo(null);
         this.bookingframe.setVisible(true);
 
+    }
+
+    public void loadDataToMovieSchduleListing(){
+        for(String[] movieArr:getMoviesData()){
+            this.tableModel.addRow(movieArr);
+        }
     }
 
     private String[][] getMoviesData(){
@@ -82,14 +95,39 @@ public class BookingPage {
         }
         return moviesData;
     }
+
     private void addActionCreateBtn(){
         this.createSchduleBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-               CreateMovieSchedulePage create = new CreateMovieSchedulePage();
+                openCreateMovieSchdulePage();
+                refreshMovieSchduleListingTable();
             }
         });
     }
+    private void openCreateMovieSchdulePage(){
+        new CreateMovieSchedulePage(this);
+    }
+
+    public void refreshMovieSchduleListingTable() {
+        this.tableModel.setRowCount(0);
+        this.loadDataToMovieSchduleListing();
+    }
+    private void addActionEditBtn(){
+        this.editSchduleBtn.addActionListener(e -> editBtnAction());
+    }
+
+    private void editBtnAction() {
+        int selectedRow = moviesTable.getSelectedRow();
+
+        if (selectedRow != -1) {
+            int scheduleId = Integer.parseInt(getMoviesData()[selectedRow][0]);
+            new UpdateMovieScheduleForm(this,scheduleId);
+        } else {
+            JOptionPane.showMessageDialog(bookingframe, "Please Select a movie");
+        }
+    }
+
     private void selectMovieForBookingAction(){
         this.bookingBtn.addActionListener(new ActionListener() {
             @Override

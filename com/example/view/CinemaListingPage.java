@@ -2,6 +2,7 @@ package com.example.view;
 
 import com.cinema.dao.AbstractDao;
 import com.cinema.dao.CinemaDao;
+import com.cinema.dao.CinemaDaoImpl;
 import com.cinema.model.Cinema;
 import com.cinema.model.Movie;
 
@@ -21,10 +22,12 @@ public class CinemaListingPage extends JFrame implements ActionListener {
     private JButton selectBtn;
     private String[] columns = {"id"," Name","Address"};
     private JFrame parentPage;
+    private String flag;
 
-   public CinemaListingPage(JFrame parentPage){
+   public CinemaListingPage(JFrame parentPage , String flag){
        this.parentPage = parentPage;
-        this.cinemaDao= new CinemaDao();
+       this.flag =flag;
+       this.cinemaDao= new CinemaDaoImpl();
        this.setLayout(new BorderLayout());
        initializeBtnComponent();
        initializeTableComponent();
@@ -66,18 +69,10 @@ public class CinemaListingPage extends JFrame implements ActionListener {
         }
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == this.selectBtn){
-            int cinemaId = this.getSelectedCinemaId();
-            CreateMovieSchedulePage page=(CreateMovieSchedulePage) this.parentPage;
-            page.refreshSelectedCinema(cinemaId);
-            this.dispose();
-        }
-    }
     public int getSelectedCinemaId(){
        return Integer.parseInt(this.cinemaDataTable[this.getSelectedRow()][0]);
     }
+
     public int getSelectedRow(){
        int selectedRow = this.cinemaTable.getSelectedRow();
        if(selectedRow == -1){
@@ -85,5 +80,20 @@ public class CinemaListingPage extends JFrame implements ActionListener {
            return -1;
        }
        return selectedRow;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource() == this.selectBtn){
+            int cinemaId = this.getSelectedCinemaId();
+            if(flag.equals("create")) {
+                CreateMovieSchedulePage page=(CreateMovieSchedulePage) this.parentPage;
+                page.refreshSelectedCinema(cinemaId);
+            } else if (flag.equals("edit")) {
+                UpdateMovieScheduleForm page = (UpdateMovieScheduleForm) this.parentPage;
+                page.refreshSelectedCinema(cinemaId);
+            }
+            this.dispose();
+        }
     }
 }

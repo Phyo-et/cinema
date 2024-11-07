@@ -19,9 +19,11 @@ public class MovieListingPage extends JFrame implements ActionListener {
     private String[] columns={"Id","Title","Duration"};
     private String[][] movieDataTable;
     private JFrame parentPage;
+    private String flag;
 
-    public MovieListingPage(JFrame parentPage){
+    public MovieListingPage(JFrame parentPage,String flag){
         this.parentPage= parentPage;
+        this.flag = flag;
         this.movieDao= new MovieDao();
         initializedTableComponent();
         initializedComponent();
@@ -69,8 +71,13 @@ public class MovieListingPage extends JFrame implements ActionListener {
 
     private void selectBtnAction(){
         int movieId =getSelectedMovieId();
-        CreateMovieSchedulePage page = (CreateMovieSchedulePage)  this.parentPage;
-        page.refreshSelectMovie(movieId);
+        if(this.flag.equals("create")){
+            CreateMovieSchedulePage page = (CreateMovieSchedulePage)  this.parentPage;
+            page.refreshSelectMovie(movieId);
+        } else if (this.flag.equals("edit")) {
+            UpdateMovieScheduleForm page = (UpdateMovieScheduleForm) this.parentPage;
+            page.refreshSelectMovie(movieId);
+        }
         this.dispose();
        // System.out.println("Selected movie id :" + movieId);
     }

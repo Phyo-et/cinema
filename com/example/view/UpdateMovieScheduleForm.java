@@ -1,12 +1,12 @@
 package com.example.view;
 
 import com.cinema.dao.*;
-import com.cinema.util.DateConverter;
-import com.cinema.util.TimeConverter;
 import com.cinema.model.Cinema;
 import com.cinema.model.Movie;
 import com.cinema.model.Schedule;
 import com.cinema.model.Theatre;
+import com.cinema.util.DateConverter;
+import com.cinema.util.TimeConverter;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,7 +15,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class CreateMovieSchedulePage extends JFrame implements ActionListener {
+public class UpdateMovieScheduleForm extends JFrame implements ActionListener {
 
     private AbstractDao<Movie> movieDao;
     private AbstractDao<Cinema> cinemaDao;
@@ -38,21 +38,30 @@ public class CreateMovieSchedulePage extends JFrame implements ActionListener {
     private JTextField publicDateField;
 
     private JButton resetBtn;
-    private JButton createBtn;
+    private JButton updateBtn;
 
     private Movie movie;
     private Cinema cinema;
     private Theatre theatre;
+    private Schedule schedule;
 
     private BookingPage parentFrame;
 
-    public CreateMovieSchedulePage(BookingPage parentFrame){
+    public UpdateMovieScheduleForm (BookingPage parentFrame , int selectedRecordId){
+
         this.parentFrame = parentFrame;
         this.movieDao =new MovieDao();
         this.cinemaDao = new CinemaDaoImpl();
         this.theatreDao = new TheatreDaoImpl();
         this.scheduleDao = new ScheduleDao();
-        initializeComponent();
+
+        this.schedule = this.scheduleDao.findbyId(selectedRecordId);
+
+        this.cinema = this.schedule.getThreatre().getCinema();
+        this.movie = this.schedule.getMovie();
+        this.theatre = this.schedule.getThreatre();
+
+        this.initializeComponent();
 
     }
 
@@ -64,6 +73,7 @@ public class CreateMovieSchedulePage extends JFrame implements ActionListener {
         }
 
     }
+
     public void prepareMovieLabel(){
         this.movieLabel = new JLabel("Movie");
         this.movieLink =new JLabel(getSelectedMovieLabel());
@@ -71,7 +81,7 @@ public class CreateMovieSchedulePage extends JFrame implements ActionListener {
         this.movieLink.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-               super.mouseClicked(e);
+                super.mouseClicked(e);
                 System.out.println("Click select movie");
                 openMovieListingPage();
             }
@@ -79,7 +89,7 @@ public class CreateMovieSchedulePage extends JFrame implements ActionListener {
     }
 
     private void openMovieListingPage() {
-         new MovieListingPage(this,"create");
+        new MovieListingPage(this,"edit");
     }
 
     private String getSelectedCinemaLabel() {
@@ -101,9 +111,11 @@ public class CreateMovieSchedulePage extends JFrame implements ActionListener {
             }
         });
     }
+
     private void openCinemaListingPage() {
-        new CinemaListingPage(this,"create");
+        new CinemaListingPage(this,"edit");
     }
+
     private String getSelectedTheatreLabel() {
         if (this.theatre == null){
             return "<html><a href = ''> SELECT Theatre </html>";
@@ -128,7 +140,7 @@ public class CreateMovieSchedulePage extends JFrame implements ActionListener {
         });
     }
     private void openTheatreListingPage() {
-            new TheatreListingPage(this , "create");
+        new TheatreListingPage(this, "edit");
     }
 
     public Cinema getCinema() {
@@ -136,7 +148,7 @@ public class CreateMovieSchedulePage extends JFrame implements ActionListener {
     }
 
     private void initializeComponent() {
-        this.setTitle("Movie Schdule Register");
+        this.setTitle("Movie Schdule Update Form");
 
         this.setSize(500,400);
         this.setLocation(100,100);
@@ -148,18 +160,18 @@ public class CreateMovieSchedulePage extends JFrame implements ActionListener {
         prepareTheatreLabel();
 
         this.startTimeLabel = new JLabel("Start Time ");
-        this.startTimeField =new JTextField();
+        this.startTimeField =new JTextField(this.schedule.getStartTime().toString());
 
         this.endTimeLabel = new JLabel("End Time ");
-        this.endTimeField = new JTextField();
+        this.endTimeField = new JTextField(this.schedule.getEndTime().toString());
 
         this.publicDateLabel = new JLabel("Public Date ");
-        this.publicDateField = new JTextField();
+        this.publicDateField = new JTextField(this.schedule.getPublicDate().toString());
 
-        this.createBtn = new JButton("Create");
+        this.updateBtn = new JButton("Update");
         this.resetBtn = new JButton("Reset");
 
-        this.createBtn.addActionListener(this);
+        this.updateBtn.addActionListener(this);
 
         addUIComponent();
 
@@ -185,7 +197,7 @@ public class CreateMovieSchedulePage extends JFrame implements ActionListener {
         this.add(publicDateLabel);
         this.add(publicDateField);
 
-        this.add(createBtn);
+        this.add(updateBtn);
         this.add(resetBtn);
 
     }
@@ -205,14 +217,13 @@ public class CreateMovieSchedulePage extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == createBtn){
-            this.createBooking();
+        if(e.getSource() == updateBtn){
+            this.updateBooking();
         }
     }
 
 
-    private void createBooking(){
-        Schedule schedule = new Schedule();
+    private void updateBooking(){
 
         schedule.setMovie(this.movie);
         schedule.setThreatre(this.theatre);
